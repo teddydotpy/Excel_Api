@@ -61,7 +61,7 @@ ROOT_URLCONF = 'ExcelBack.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'ExcelBack'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
