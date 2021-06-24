@@ -17,5 +17,13 @@
         <br><br>
             Sorry.
         </h1>
+
+        <form action="/Info/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <br> <br>
+            <input type="submit" value="Submit">
+        </form>
+
     </body>
 </html>
