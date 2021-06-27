@@ -1,0 +1,9 @@
+Django==3.1.5
+django-cors-middleware==1.5.0
+djangorestframework==3.12.2
+Pillow==8.1.0
+psycopg2==2.8.6
+pylint==2.6.0
+pyOpenSSL==20.0.0
+sqlparse==0.4.1
+openpyxl==3.0.6

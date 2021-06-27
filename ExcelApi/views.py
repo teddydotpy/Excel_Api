@@ -37,7 +37,7 @@ def req_resolution(request):
     return render(request, 'pages/index.html', {'form': Userform})
 
 def putIntoExcel(data):
-    wb = openpyxl.Workbook()
+    wb = openxyl.load_workbook('UserInfo.xlsx')
     sheet = wb.get_sheet_by_name('Sheet')
     sheet['A1'] = 'Name & Surname'
     sheet['B1'] = 'Contact Number'
