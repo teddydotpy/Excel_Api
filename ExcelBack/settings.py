@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 
-from . import env
 if os.environ.get('SETTINGS_DEBUG') == None:
+    from . import env 
     env.env_setup()
     
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
