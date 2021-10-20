@@ -1,1 +1,1 @@
-web: gunicorn TeddysBack.wsgi --log-file -
+web: gunicorn ExcelBack.wsgi --log-file -
