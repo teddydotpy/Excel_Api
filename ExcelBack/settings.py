@@ -37,7 +37,7 @@ if os.environ.get('SETTINGS_DEBUG') == 'True':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['https://philabackend.herokuapp.com/', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['philabackend.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
