@@ -2,33 +2,31 @@ from django import forms
 
 gender_choices = (
     (1, 'Choose a Gender'),
-    (2, 'Male'),
-    (3, 'Female'),
-    (4, 'Other')
+    ('Male', 'Male'),
+    ('Female', 'Female'),
+    ('Other', 'Other')
 )
 
 race_choices = (
     (1, 'Pick race'),
-    (2, 'African'),
-    (3, 'White'),
-    (4, 'Asian'),
-    (5, 'Indian'),
-    (6, 'Hispanic'),
-    (7, 'Other')
+    ('African', 'African'),
+    ('White', 'White'),
+    ('Asian', 'Asian'),
+    ('Indian', 'Indian'),
+    ('Hispanic', 'Hispanic'),
+    ('Other', 'Other'),
 )
 
 area_choices = (
     (1, 'Choose Area'),
-    (2, 'Gauteng'),
-    (3, 'Kwazulu_Natal'),
-    (4, 'Limpopo'),
-    (5, 'Mpumalanga'),
-    (6, 'Western Cape'),
-    (7, 'North West'),
-    (8, 'North West'),
-    (9, 'Eastern Cape'),
-    (10, 'Eastern Cape'),
-    (11, 'Free State')
+    ('Gauteng', 'Gauteng'),
+    ('Kwazulu_Natal', 'Kwazulu_Natal'),
+    ('Limpopo', 'Limpopo'),
+    ('Mpumalanga', 'Mpumalanga'),
+    ('Western Cape', 'Western Cape'),
+    ('North West', 'North West'),
+    ('Eastern Cape', 'Eastern Cape'),
+    ('Free State', 'Free State')
 )
 
 class Userform(forms.Form):

@@ -47,32 +47,14 @@ def pop_excel(data):
     try:
         wb = load_workbook('User_Info.xlsx')
         sheet = wb.active
-        User_db = db.connect('UserInfo.sqlite3')
-
-        sheet['A1'] = 'Name & Surname'
-        sheet['B1'] = 'Contact Number'
-        sheet['C1'] = 'Age'
-        sheet['D1'] = 'Gender'
-        sheet['E1'] = 'Race'
-        sheet['F1'] = 'Area'
-        sheet['G1'] = 'Gender'
-        sheet['H1'] = 'Email'
-
-        sheet['A'+ str(data['id'] + 1)] = data['Name'] + ' ' + data['Surname']
-        sheet['B'+ str(data['id'] + 1)] = data['Contact_Number']
-        sheet['C'+ str(data['id'] + 1)] = data['Age']
-        sheet['D'+ str(data['id'] + 1)] = data['Gender']
-        sheet['E'+ str(data['id'] + 1)] = data['Race']
-        sheet['F'+ str(data['id'] + 1)] = data['Area']
-        sheet['G'+ str(data['id'] + 1)] = data['Gender']
-        sheet['H'+ str(data['id'] + 1)] = data['Email']
-        
-        wb.save('UserInfo.xlsx')
+        print(data)
+        table_data = [k for i, k in data.dict().items() if i != 'csrfmiddlewaretoken']
+        sheet.append(table_data)
+        wb.save()
     except FileNotFoundError:
         wb = Workbook()
         wb.save('UserInfo.xlsx')
         sheet = wb.active
-        User_db = db.connect('UserInfo.sqlite3')
 
         sheet['A1'] = 'Name & Surname'
         sheet['B1'] = 'Contact Number'
@@ -82,16 +64,20 @@ def pop_excel(data):
         sheet['F1'] = 'Area'
         sheet['G1'] = 'Gender'
         sheet['H1'] = 'Email'
+    
+        for i in data:
+            table_data = [
+                i.U_Name + ' ' + i.U_Surname,
+                str(i.U_ContactNo),
+                int(i.U_Age),
+                str(i.U_Gender),
+                str(i.U_Race),
+                str(i.U_Area),
+                str(i.U_Gender),
+                str(i.U_Email)
+            ]
+            sheet.append(table_data)
 
-        sheet['A'+ str(data['id'] + 1)] = data['Name'] + ' ' + data['Surname']
-        sheet['B'+ str(data['id'] + 1)] = data['Contact_Number']
-        sheet['C'+ str(data['id'] + 1)] = data['Age']
-        sheet['D'+ str(data['id'] + 1)] = data['Gender']
-        sheet['E'+ str(data['id'] + 1)] = data['Race']
-        sheet['F'+ str(data['id'] + 1)] = data['Area']
-        sheet['G'+ str(data['id'] + 1)] = data['Gender']
-        sheet['H'+ str(data['id'] + 1)] = data['Email']
-        
         wb.save('UserInfo.xlsx')
 
 class UserInfoView(APIView):
@@ -102,10 +88,10 @@ class UserInfoView(APIView):
         return  Response(serializer.data)
 
     def post(self, request):
+        info_data = UserInfo.objects.all()
         form = Userform(request.POST)
-        print(request.data)
         if form.is_valid():
-            pop_excel(request.data)
+            pop_excel(info_data)
             new_post = UserInfo(
                 U_Name = request.data['Name'],
                 U_Surname = request.data['Surname'],
