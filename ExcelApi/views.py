@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .forms import Userform
+from django.views import View
 
 from .models import UserInfo
 from .Serializer import InfoSerializer
@@ -19,8 +20,10 @@ db = sqlite3
 # This is particularly cute view allows a user to post and get json of information in  our
 # neat little database :)
 
-def index(request):
-    return render(request, 'pages/index.html', {'form': Userform})
+class indexView(View):
+
+    def get(self, request):
+        return render(request, 'pages/index.html', {'form': Userform})
 
 def req_resolution(request):
     # if this is a POST request we need to process the form data
