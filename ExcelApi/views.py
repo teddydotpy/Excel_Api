@@ -11,6 +11,8 @@ import openpyxl
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
+import sqlite3
+
 # Create your views here.
 # This is particularly cute view allows a user to post and get json of information in  our
 # neat little database :)
@@ -36,9 +38,11 @@ def req_resolution(request):
 
     return render(request, 'pages/index.html', {'form': Userform})
 
-def putIntoExcel(data):
-    wb = openxyl.load_workbook('UserInfo.xlsx')
-    sheet = wb.get_sheet_by_name('Sheet')
+def pop_excel(data):
+    wb = openpyxl.Workbook('UserInfo.xlsx')
+    sheet = wb.get_sheet_by_name('Sheet1')
+    User_db = db.connect('UserInfo.sqlite3')
+
     sheet['A1'] = 'Name & Surname'
     sheet['B1'] = 'Contact Number'
     sheet['C1'] = 'Age'
@@ -50,25 +54,7 @@ def putIntoExcel(data):
     sheet['C'+ str(data['id'] + 1)] = data['U_Age']
     sheet['D'+ str(data['id'] + 1)] = data['U_ChildCount']
     sheet['E'+ str(data['id'] + 1)] = data['U_BankType']
-
-    wb.save('UserInfo.xlsx')
-
-
-def NormalExcel(data):
-    wb = openpyxl.Workbook()
-    sheet = wb.get_sheet_by_name('Sheet')
-    sheet['A1'] = 'Name & Surname'
-    sheet['B1'] = 'Contact Number'
-    sheet['C1'] = 'Age'
-    sheet['D1'] = 'Number Of Children'
-    sheet['E1'] = 'Bank ??'
-
-    sheet['A'+ str(UserInfo.objects.latest('id').id + 1)] = data['Name'] + ' ' + data['Surname']
-    sheet['B'+ str(UserInfo.objects.latest('id').id + 1)] = data['Contact_Number']
-    sheet['C'+ str(UserInfo.objects.latest('id').id + 1)] = data['Age']
-    sheet['D'+ str(UserInfo.objects.latest('id').id + 1)] = data['Number_of_Children']
-    sheet['E'+ str(UserInfo.objects.latest('id').id + 1)] = data['Bank_Name']
-
+     
     wb.save('UserInfo.xlsx')
 
 
@@ -82,7 +68,7 @@ class UserInfoView(APIView):
     def post(self, request):
         form = Userform(request.POST)
         if form.is_valid():
-            print(request.data)
+            pop_excel(request.data)
             new_post = UserInfo(
                 U_Name = request.data['Name'],
                 U_Surname = request.data['Surname'],
@@ -92,13 +78,11 @@ class UserInfoView(APIView):
                 U_BankType = request.data['Bank_Name'],
             )
             new_post.save()
-            NormalExcel(request.data)
             Response(request.data, status=status.HTTP_201_CREATED)
             return HttpResponseRedirect('..', {'form': Userform})
 
         serializer = InfoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            putIntoExcel(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
