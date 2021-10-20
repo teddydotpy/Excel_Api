@@ -111,7 +111,7 @@ class UserInfoView(APIView):
                 U_Gender = request.data['Gender'],
                 U_Race = request.data['Race'],
                 U_Area = request.data['Area'],
-                U_Email = request.data['Email']
+                U_Email = request.data['Email'],
             )
             new_post.save()
             Response(request.data, status=status.HTTP_201_CREATED)
