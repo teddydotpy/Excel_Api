@@ -1,0 +1,1 @@
+web: gunicorn TeddysBack.wsgi --log-file -
